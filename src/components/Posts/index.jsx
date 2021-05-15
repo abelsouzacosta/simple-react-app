@@ -7,7 +7,7 @@ import P from 'prop-types';
 export const Posts = ({ posts }) => (
   <div className="posts">
     {posts.map((post) => (
-      <PostCard post={post} key={post.id} />
+      <PostCard key={post.id} title={post.title} body={post.body} cover={post.cover} id={post.id} />
     ))}
   </div>
 );

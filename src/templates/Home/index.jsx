@@ -15,8 +15,8 @@ const Home = () => {
   const noMorePosts = page + postsPerPage >= allPosts.length;
 
   const filteredPosts = searchValue
-    ? posts.filter((posts) => {
-        return posts.title.toLowerCase().includes(searchValue.toLowerCase());
+    ? posts.filter((post) => {
+        return post.title.toLowerCase().includes(searchValue.toLowerCase());
       })
     : posts;
 
@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    makePosts(0, postsPerPage);
+    return makePosts(0, postsPerPage);
   }, [makePosts, postsPerPage]);
 
   const handleChange = (event) => {
