@@ -1,25 +1,25 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import { Input } from ".";
+import { Input } from '.';
 
-describe("<Input />", () => {
-  it("should render input", () => {
+describe('<Input />', () => {
+  it('should render input', () => {
     render(<Input />);
   });
 
-  it("should have a value on searchValue", () => {
+  it('should have a value on searchValue', () => {
     const fn = jest.fn();
     render(<Input searchValue="test" handleChange={fn} />);
-    expect(screen.getByPlaceholderText("Search...")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Search...").value).toBe("test");
+    expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search...').value).toBe('test');
   });
 
-  it("should call render function on each key pressed", () => {
+  it('should call render function on each key pressed', () => {
     const fn = jest.fn();
     render(<Input handleChange={fn} />);
 
-    const input = screen.getByPlaceholderText("Search...");
+    const input = screen.getByPlaceholderText('Search...');
     const value = `value`;
 
     userEvent.type(input, value);

@@ -1,11 +1,18 @@
-import "./styles.css";
+import React from 'react';
+import './styles.css';
 
-export const Button = (props) => {
-  const { text, action, disabled } = props;
+import P from 'prop-types';
 
+export const Button = ({ text, action, disabled }) => {
   return (
     <button onClick={action} className="button" disabled={disabled}>
       {text}
     </button>
   );
+};
+
+Button.propTypes = {
+  text: P.string.isRequired,
+  action: P.func.isRequired,
+  disabled: P.bool.isRequired,
 };
