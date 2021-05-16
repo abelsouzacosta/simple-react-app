@@ -13,6 +13,6 @@ export const Button = ({ text, action, disabled }) => {
 
 Button.propTypes = {
   text: P.string.isRequired,
-  action: P.func.isRequired,
-  disabled: P.bool.isRequired,
+  action: P.func,
+  disabled: P.bool,
 };
