@@ -3,6 +3,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, waitForElementToBeRemoved, screen } from '@testing-library/react';
 import Home from '.';
+import userEvent from '@testing-library/user-event';
 
 const handlers = [
   rest.get('https://jsonplaceholder.typicode.com/posts', async (req, res, ctx) => {
@@ -78,8 +79,37 @@ describe('<Home />', () => {
 
   it('should render search, posts and load more', async () => {
     render(<Home />);
+
     const thereAreNoMorePosts = screen.getByText('Unfortunatelly nothing was found');
     await waitForElementToBeRemoved(thereAreNoMorePosts);
-    screen.debug();
+
+    expect.assertions(3);
+
+    const search = screen.getByPlaceholderText('Search...');
+    expect(search).toBeInTheDocument();
+
+    const images = screen.getAllByRole('img', { title: /image title/i });
+    expect(images).toHaveLength(3);
+
+    const button = screen.getByRole('button', { class: /button/i });
+    expect(button).toBeInTheDocument();
+  });
+
+  it('should search for posts when something is typed on search input', async () => {
+    render(<Home />);
+
+    const thereAreNoMorePosts = screen.getByText('Unfortunatelly nothing was found');
+    await waitForElementToBeRemoved(thereAreNoMorePosts);
+
+    const search = screen.getByPlaceholderText('Search...');
+
+    expect(screen.getByRole('heading', { name: /title 1 1/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /title 2 2/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /title 3 3/i })).toBeInTheDocument();
+
+    userEvent.type(search, 'title 1');
+    expect(screen.queryByRole('heading', { name: /title 1 1/i })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /title 2 2/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /title 3 3/i })).not.toBeInTheDocument();
   });
 });
